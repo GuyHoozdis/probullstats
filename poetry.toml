@@ -1,0 +1,2 @@
+[virtualenvs]
+prompt = "[poetry]:{project_name}-py{python_version}"
