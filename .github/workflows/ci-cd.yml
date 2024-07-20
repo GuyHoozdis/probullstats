@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   ci:
     runs-on: ubuntu-latest
+
     steps:
     - name: Set up Python 3.8
       uses: actions/setup-python@v5
@@ -16,20 +17,92 @@ jobs:
 
     - name: Install poetry
       run: |
+        echo -e ${PATH//:/\\n}
+        which -a python
+        which -a python3
+        which -a pipx
+        python --version
         pipx install poetry
         pipx ensurepath
+        echo -e ${PATH//:/\\n}
+        which -a poetry
+        which -a python
 
     - name: Install package
       run: |
+        which -a python
+        python --version
+        which -a poetry
         poetry --version
         poetry debug info
         poetry install
+        which -a python
+        python --version
 
     - name: Run Tests
-      run: poetry run python -m this
+      run: |
+        poetry run which -a python
+        poetry run python --version
+        poetry run python -m this
 
     - name: Track code coverage
       run: python 1>/dev/null -c "import this, sys; print('='*80, '', this.s, sep='\n', file=sys.stderr)"
 
     - name: Build documentation
-      run: poetry config --list
+      run: |
+        which -a python
+        python --version
+        poetry config --list
+  cd:
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    outputs:
+      released: ${{ steps.release.outputs.released }}
+    steps:
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.9
+
+    - name: Check-out repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Use Python Semantic Release to prepare release
+      id: release
+      run: |
+        echo "Shouldn't we have installed poetry before this step?"
+        echo -e ${PATH//:/\\n}
+        which -a python
+        python --version
+
+    - name: Publish to TestPyPi
+      if: steps.release.outputs.released == 'true'
+      run: |
+        echo "Waiting for approval on the organization from TestPyPI."
+
+    - name: Test install from TestPyPI
+      run: |
+        echo -e ${PATH//:/\\n}
+        which -a python
+        which -a pip
+        pip install \
+          --index-url https://test.pypi.org/simple/ \
+          --extra-index-url https://pypi.org/simple \
+          probullstats
+
+    - name: Publish to PyPI
+      if: steps.release.outputs.released == 'true'
+      run: |
+        echo "Waiting for approval on the organization from PyPI."
+
+    - name: Publish package distributions to GitHub Releases
+      if: steps.release.outputs.released == 'true'
+      run: |
+        echo "Go over these steps again and ensure that"
+        echo "the build artifacts being created are the"
+        echo "same that are being tested, published to"
+        echo "the package indexes, and here."
