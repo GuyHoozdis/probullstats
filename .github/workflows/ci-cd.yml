@@ -1,0 +1,35 @@
+name: ci-cd
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.8
+
+    - name: Check-out repository
+      uses: actions/checkout@v4
+
+    - name: Install poetry
+      run: |
+        pipx install poetry
+        pipx ensurepath
+
+    - name: Install package
+      run: |
+        poetry --version
+        poetry debug info
+        poetry install
+
+    - name: Run Tests
+      run: poetry run python -m this
+
+    - name: Track code coverage
+      run: python 1>/dev/null -c "import this, sys; print('='*80, '', this.s, sep='\n', file=sys.stderr)"
+
+    - name: Build documentation
+      run: poetry config --list
