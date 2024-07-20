@@ -17,58 +17,15 @@ jobs:
 
     - name: Install poetry
       run: |
-        echo -e "\n== PATH =="
-        echo -e ${PATH//:/\\n}
-        echo -e "\n== which python =="
-        which -a python
-        echo -e "\n== which python3 =="
-        which -a python3
-        echo -e "\n== which pipx =="
-        which -a pipx
-        python --version
-        echo -e "\n== Installing poetry =="
         pipx install poetry
-        echo -e "\n== which poetry =="
-        which poetry
-        echo -e "\n== ensure path =="
-        pipx ensurepath
-        echo -e "\n== PATH =="
-        echo -e ${PATH//:/\\n}
-        echo -e "\n== which poetry =="
-        which -a poetry
-        echo -e "\n== which python =="
-        which -a python
 
     - name: Install package
       run: |
-        echo -e "\n== PATH =="
-        echo -e ${PATH//:/\\n}
-        echo -e "\n== which python =="
-        which -a python
-        python --version
-        echo -e "\n== which poetry =="
-        which -a poetry
-        poetry --version
-        poetry debug info
         poetry install
-        echo -e "\n== PATH =="
-        echo -e ${PATH//:/\\n}
-        echo -e "\n== which python =="
-        which -a python
-        python --version
-        echo -e "\n== env =="
-        env | sort
 
     - name: Run Tests
       run: |
-        echo -e "\n== PATH (in poetry) =="
-        poetry run bash -c 'printf "${PATH//:/\\n}"'
-        echo -e "\n== which python (in poetry) =="
-        poetry run which -a python
-        poetry run python --version
         poetry run python -m this
-        echo -e "\n== env (in poetry) =="
-        poetry run env | sort
 
     - name: Track code coverage
       run: python 1>/dev/null -c "import this, sys; print('='*80, '', this.s, sep='\n', file=sys.stderr)"
@@ -78,6 +35,7 @@ jobs:
         which -a python
         python --version
         poetry config --list
+
   cd:
     needs: ci
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -100,11 +58,6 @@ jobs:
       id: release
       run: |
         echo "Shouldn't we have installed poetry before this step?"
-        echo "== PATH =="
-        echo -e ${PATH//:/\\n}
-        echo "\n== which python =="
-        which -a python
-        python --version
 
     - name: Publish to TestPyPi
       if: steps.release.outputs.released == 'true'
@@ -115,12 +68,7 @@ jobs:
       run: |
         echo "This is expected to fail, because we haven't actually published anything.  Most"
         echo "of these steps are placeholders while things are put into place."
-        echo -e "\n== PATH =="
-        echo -e ${PATH//:/\\n}
-        echo -e "\n== which python =="
-        which -a python
-        echo -e "\n== which pip =="
-        which -a pip
+        which -a python3.8
         pip install \
           --index-url https://test.pypi.org/simple/ \
           --extra-index-url https://pypi.org/simple \
