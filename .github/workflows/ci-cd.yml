@@ -3,38 +3,50 @@ name: ci-cd
 on: [push, pull_request]
 
 jobs:
-  ci:
+  mypy:
     runs-on: ubuntu-latest
-
+    name: Type Checkers
     steps:
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v5
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
       with:
-        python-version: 3.8
+        python-version: "3.11"
+        architecture: x64
+    - run: pipx install poetry
+    - run: pipx install nox
+    - run: nox --session mypy
 
-    - name: Check-out repository
-      uses: actions/checkout@v4
+  lint:
+    if: ${{ always() }}
+    needs: mypy
+    name: Linting and Style Checks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+        architecture: x64
+    - run: pipx install poetry
+    - run: pipx install nox
+    - run: nox --session lint style
 
-    - name: Install poetry
-      run: |
-        pipx install poetry
-
-    - name: Install package
-      run: |
-        poetry install
-
-    - name: Run Tests
-      run: |
-        poetry run python -m this
-
-    - name: Track code coverage
-      run: python 1>/dev/null -c "import this, sys; print('='*80, '', this.s, sep='\n', file=sys.stderr)"
-
-    - name: Build documentation
-      run: |
-        which -a python
-        python --version
-        poetry config --list
+  ci:
+    needs: [lint, mypy]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.11", "3.10", "3.9"]
+    name: Python ${{ matrix.python-version }} Test Suite and Acceptance Tests
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+    - run: pipx install poetry
+    - run: pipx install nox
+    - run: nox --session test-suite-${{ matrix.python-version }} acceptance-${{ matrix.python-version }}
 
   cd:
     needs: ci
