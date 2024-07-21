@@ -11,7 +11,7 @@ readme = "README.md"
 packages = [{include = "probullstats", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "*"
@@ -20,10 +20,6 @@ ipdb = "^0.13.13"
 [tool.poetry.group.test.dependencies]
 testtools = "^2.7.2"
 coverage = {extras = ["toml"], version = "^7.6.0"}
-pre-commit = [
-    {version = "^3.7.1", python = "^3.9"},
-    {version = "*", python = "<3.9"},
-]
 mypy = "^1.11.0"
 ruff = "^0.5.4"
 behave = "^1.2.6"
@@ -35,7 +31,4 @@ nox = "^2024.4.15"
 optional = true
 
 [tool.poetry.group.docs.dependencies]
-sphinx = [
-    {version = "^7.3.7", python = "^3.9"},
-    {version = "*", python = "<3.9"},
-]
+sphinx = "^7.4.7"

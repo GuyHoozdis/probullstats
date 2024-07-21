@@ -10,7 +10,7 @@ nox.options.error_on_external_run = True
 # nox.options.sessions = "lint", "mypy", "rtfd", "xdoctests", "testsuite", "acceptance-tests"
 
 
-SUPPORTED_PYTHON_VERSIONS = ["3.12", "3.11", "3.10", "3.9", "3.8"]
+SUPPORTED_PYTHON_VERSIONS = ["3.12", "3.11", "3.10", "3.9"]
 DEFAULT_PYTHON_VERSION = "3.11"
 SOURCE_CODE_TARGETS = [
     "src/",
