@@ -10,6 +10,10 @@ authors = ["Guy Hoozdis <GuyHoozdis@users.noreply.github.com>"]
 readme = "README.md"
 packages = [{include = "probullstats", from = "src"}]
 
+[tool.poetry.scripts]
+probullstats = "probullstats.console:main"
+
+
 [tool.poetry.dependencies]
 python = "^3.9"
 
