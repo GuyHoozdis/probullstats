@@ -28,9 +28,8 @@ exclude = [
     "venv",
 ]
 
-# Same as Black.
-line-length = 88
 indent-width = 4
+line-length = 120
 
 target-version = "py311"
 

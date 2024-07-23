@@ -11,11 +11,12 @@ readme = "README.md"
 packages = [{include = "probullstats", from = "src"}]
 
 [tool.poetry.scripts]
-probullstats = "probullstats.console:main"
+probullstats = "probullstats.console:cli"
 
 
 [tool.poetry.dependencies]
 python = "^3.9"
+argparse = "^1.4.0"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "*"

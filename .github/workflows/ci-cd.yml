@@ -44,9 +44,17 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         architecture: x64
-    - run: pipx install poetry
-    - run: pipx install nox
-    - run: nox --session test-suite-${{ matrix.python-version }} acceptance-${{ matrix.python-version }}
+    - name: Install Poetry
+      run: pipx install poetry
+
+    - name: Install Nox
+      run: pipx install nox
+
+    - name: Test Suite
+      run: nox --stop-on-first-error --session test-suite-${{ matrix.python-version }}
+
+    - name: Acceptance Tests
+      run: nox --stop-on-first-error --session acceptance-${{ matrix.python-version }}
 
   cd:
     needs: ci
@@ -56,10 +64,10 @@ jobs:
     outputs:
       released: ${{ steps.release.outputs.released }}
     steps:
-    - name: Set up Python 3.9
+    - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: 3.9
+        python-version: 3.11
 
     - name: Check-out repository
       uses: actions/checkout@v4
@@ -80,12 +88,11 @@ jobs:
       run: |
         echo "This is expected to fail, because we haven't actually published anything.  Most"
         echo "of these steps are placeholders while things are put into place."
-        which -a python3.8
         pip install \
           --index-url https://test.pypi.org/simple/ \
           --extra-index-url https://pypi.org/simple \
           probullstats
-        nox -s acceptance
+        nox -s acceptance-3.11
 
     - name: Publish to PyPI
       if: steps.release.outputs.released == 'true'

@@ -4,6 +4,11 @@ from probullstats import console
 
 
 class ConsoleTestCase(TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.parser = console.create_parser()
+
     def test_main_succeeds(self) -> None:
-        exit_code = console.main()
-        self.assertEqual(0, exit_code)
+        args = self.parser.parse_args([])
+        returncode = console.main(args)
+        self.assertEqual(0, returncode)
