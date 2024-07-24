@@ -1,8 +1,14 @@
 """Nox sessions"""
 
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
+
 import nox
-from nox.sessions import Session
+
+if TYPE_CHECKING:
+    from nox.sessions import Session
 
 
 SUPPORTED_PYTHON_VERSIONS = ["3.12", "3.11", "3.10", "3.9"]
