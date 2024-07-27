@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+from collections import namedtuple
 from typing import TYPE_CHECKING
 
 import nox
@@ -31,6 +32,15 @@ nox.options.sessions = (
     f"test-suite-{DEFAULT_PYTHON_VERSION}",
     f"acceptance-{DEFAULT_PYTHON_VERSION}",
 )
+
+
+PackageIndex = namedtuple("PackageIndex", "name url")
+TestPyPI = PackageIndex("testpypi", "https://test.pypi.org/simple/")
+PyPI = PackageIndex("pypi", "https://pypi.org/simple/")
+LookupPackageIndex = {
+    TestPyPI.name: TestPyPI,
+    PyPI.name: PyPI,
+}
 
 
 @nox.session(python=DEFAULT_PYTHON_VERSION)
@@ -91,3 +101,26 @@ def suite(session: Session) -> None:
     args = session.posargs or ["discover", "./tests/suite"]
     session.run("poetry", "install", "--only=test", external=True)
     session.run("python", "-m", "testtools.run", *args)
+
+
+@nox.session(python=DEFAULT_PYTHON_VERSION)
+@nox.parametrize("repo", ["pypi", "testpypi"], ids=["pypi", "testpypi"])
+def install(session: Session, repo: str) -> None:
+    """Install package from repo and then test."""
+    package_index = LookupPackageIndex[repo]
+    session.log(f"Testing artifact from {repo} ({package_index.url}).")
+    session.run("poetry", "install", "--no-root", "--only=test", external=True)
+
+    session.debug("Local version.")
+    session.run("poetry", "version", external=True)
+
+    session.debug("Versions available from the artifact repository.")
+    session.run("pip", "index", "versions", "probullstats", "-vv", "--index-url", package_index.url)
+    session.run("pip", "install", "probullstats")
+    session.run("probullstats", "--version")
+
+    session.log("Running test suite.")
+    session.run("python", "-m", "testtools.run", "discover", "./tests/suite")
+
+    session.log("Running acceptance tests.")
+    session.run("behave", "./tests/features")
