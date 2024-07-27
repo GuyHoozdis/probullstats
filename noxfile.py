@@ -116,7 +116,7 @@ def install(session: Session, repo: str) -> None:
 
     session.debug("Versions available from the artifact repository.")
     session.run("pip", "index", "versions", "probullstats", "-vv", "--index-url", package_index.url)
-    session.run("pip", "install", "probullstats")
+    session.run("pip", "install", "probullstats", "--index-url", package_index.url, "--extra-index-url", PyPI.url)
     session.run("probullstats", "--version")
 
     session.log("Running test suite.")
