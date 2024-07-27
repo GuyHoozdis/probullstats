@@ -1,22 +1,14 @@
 from __future__ import annotations
 
 from argparse import Namespace
-from typing import Any, TypedDict, Unpack
+from typing import Any, TypedDict
 
 
-# See: https://behave.readthedocs.io/en/latest/tutorial/#debug-on-error-in-case-of-step-failures
-#
-# $ -D BEHAVE_DEBUG_ON_ERROR
-# $ -D BEHAVE_DEBUG_ON_ERROR=yes
-# $ -D BEHAVE_DEBUG_ON_ERROR=no
 class _Configuration(Namespace):
+    """Global configuraiton manager."""
     _instance = None
 
-    class Options(TypedDict):
-        debug_on_error: bool
-        # Additional custom configuration options can be formalized here.
-
-    def __new__(cls, **kwargs: Unpack[_Configuration.Options]) -> _Configuration:
+    def __new__(cls, **kwargs: bool) -> _Configuration:
         if not cls._instance:
             cls._instance = super().__new__(cls)
             for attr, value in kwargs.items():
@@ -24,8 +16,12 @@ class _Configuration(Namespace):
         return cls._instance
 
 
-kwargs: _Configuration.Options = {"debug_on_error": False}
-_config = _Configuration(**kwargs)
+# See: https://behave.readthedocs.io/en/latest/tutorial/#debug-on-error-in-case-of-step-failures
+#
+# $ -D BEHAVE_DEBUG_ON_ERROR
+# $ -D BEHAVE_DEBUG_ON_ERROR=yes
+# $ -D BEHAVE_DEBUG_ON_ERROR=no
+_config = _Configuration(debug_on_error=False)
 
 
 def setup_debug_on_error(userdata: Any) -> None:
