@@ -74,7 +74,6 @@ jobs:
         echo "Do this now or do we wait until we do a release?"
 
     - name: Publish to TestPyPi
-      if: steps.release.outputs.released == 'true'
       run: |
         echo "The local version is $(poetry version)"
         poetry build
