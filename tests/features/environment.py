@@ -1,12 +1,7 @@
 from __future__ import annotations
 
 from argparse import Namespace
-from typing import TYPE_CHECKING, Any
-
-if TYPE_CHECKING:
-    from behave.model import Step
-    from behave.runner import Context
-    from behave.userdata import UserData
+from typing import Any, TypedDict, Unpack
 
 
 # See: https://behave.readthedocs.io/en/latest/tutorial/#debug-on-error-in-case-of-step-failures
@@ -17,7 +12,11 @@ if TYPE_CHECKING:
 class _Configuration(Namespace):
     _instance = None
 
-    def __new__(cls, **kwargs: dict[str, Any]) -> _Configuration:
+    class Options(TypedDict):
+        debug_on_error: bool
+        # Additional custom configuration options can be formalized here.
+
+    def __new__(cls, **kwargs: Unpack[_Configuration.Options]) -> _Configuration:
         if not cls._instance:
             cls._instance = super().__new__(cls)
             for attr, value in kwargs.items():
@@ -25,20 +24,19 @@ class _Configuration(Namespace):
         return cls._instance
 
 
-_config = _Configuration(
-    debug_on_error=False,
-)
+kwargs: _Configuration.Options = {"debug_on_error": False}
+_config = _Configuration(**kwargs)
 
 
-def setup_debug_on_error(userdata: UserData) -> None:
+def setup_debug_on_error(userdata: Any) -> None:
     _config.debug_on_error = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
 
 
-def before_all(context: Context) -> None:
+def before_all(context: Any) -> None:
     setup_debug_on_error(context.config.userdata)
 
 
-def after_step(_: Context, step: Step) -> None:
+def after_step(_: Any, step: Any) -> None:
     if _config.debug_on_error and step.status == "failed":
         import ipdb
 
