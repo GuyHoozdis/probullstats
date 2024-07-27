@@ -104,7 +104,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # Ignore `D` rules everywhere except in the `src/` directory.
 "!src/**.py" = ["D"]
 "tests/features/environment.py" = ["ANN401", "INP001", "T10"]
-"tests/features/steps/*.py" = ["ANN401"]
+"tests/features/steps/*.py" = ["ANN401", "F811"]
 
 [lint.pydocstyle]
 convention = "google"
