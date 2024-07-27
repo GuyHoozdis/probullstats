@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from argparse import Namespace
-from typing import Any, TypedDict
+from typing import Any
 
 
 class _Configuration(Namespace):
     """Global configuraiton manager."""
+
     _instance = None
 
     def __new__(cls, **kwargs: bool) -> _Configuration:

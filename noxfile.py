@@ -50,7 +50,7 @@ def style(session: Session) -> None:
     session.run("ruff", "format", *args)
 
 
-@nox.session(python=DEFAULT_PYTHON_VERSION)
+@nox.session(python=SUPPORTED_PYTHON_VERSIONS)
 def mypy(session: Session) -> None:
     """Static type checking using mypy."""
     args = session.posargs or SOURCE_CODE_TARGETS
@@ -63,7 +63,10 @@ def quality(session: Session) -> None:
     """Execute the lint, style, and mypy sessions."""
     session.notify("lint")
     session.notify("style")
-    session.notify("mypy")
+    session.notify("mypy-3.9")
+    session.notify("mypy-3.10")
+    session.notify("mypy-3.11")
+    session.notify("mypy-3.12")
 
 
 @nox.session(python=DEFAULT_PYTHON_VERSION)
