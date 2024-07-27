@@ -41,7 +41,7 @@
 				"dotfiles.repository": "GuyHoozdis/dotfiles",
 				"dotfiles.targetPath": "~/dotfiles",
 				"dotfiles.installCommand": "./share/install/vscode/install.sh",
-        "python.terminal.activateEnvironment": false
+				"python.terminal.activateEnvironment": false
 			}
 		}
 	},

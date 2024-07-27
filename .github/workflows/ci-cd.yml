@@ -3,22 +3,7 @@ name: ci-cd
 on: [push, pull_request]
 
 jobs:
-  mypy:
-    runs-on: ubuntu-latest
-    name: Type Checkers
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
-        architecture: x64
-    - run: pipx install poetry
-    - run: pipx install nox
-    - run: nox --session mypy
-
   lint:
-    if: ${{ always() }}
-    needs: mypy
     name: Linting and Style Checks
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +17,7 @@ jobs:
     - run: nox --session lint style
 
   ci:
-    needs: [lint, mypy]
+    needs: [lint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -49,6 +34,9 @@ jobs:
 
     - name: Install Nox
       run: pipx install nox
+
+    - name: Static Type Checking
+      run: nox --session mypy-${{ matrix.python-version }}
 
     - name: Test Suite
       run: nox --stop-on-first-error --session test-suite-${{ matrix.python-version }}
@@ -74,25 +62,34 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install Poetry
+      run: pipx install poetry
+
+    - name: Install Nox
+      run: pipx install nox
+
     - name: Use Python Semantic Release to prepare release
       id: release
       run: |
-        echo "Shouldn't we have installed poetry before this step?"
+        echo "Do this now or do we wait until we do a release?""
 
     - name: Publish to TestPyPi
       if: steps.release.outputs.released == 'true'
       run: |
-        echo "Waiting for approval on the organization from TestPyPI."
+        echo "The local version is $(poetry version)"
+        poetry build
+        poetry publish --repository=testpypi --username=__token__ --password=${{ secrets.TESTPYPI_TOKEN }}
+        pip index versions \
+          --index-url https://test.pypi.org/simple/ \
+          probullstats
 
     - name: Test install from TestPyPI
       run: |
-        echo "This is expected to fail, because we haven't actually published anything.  Most"
-        echo "of these steps are placeholders while things are put into place."
         pip install \
           --index-url https://test.pypi.org/simple/ \
           --extra-index-url https://pypi.org/simple \
           probullstats
-        nox -s acceptance-3.11
+        nox -k testpypi
 
     - name: Publish to PyPI
       if: steps.release.outputs.released == 'true'
