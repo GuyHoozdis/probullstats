@@ -71,7 +71,7 @@ jobs:
     - name: Use Python Semantic Release to prepare release
       id: release
       run: |
-        echo "Do this now or do we wait until we do a release?""
+        echo "Do this now or do we wait until we do a release?"
 
     - name: Publish to TestPyPi
       if: steps.release.outputs.released == 'true'
