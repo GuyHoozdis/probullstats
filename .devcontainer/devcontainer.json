@@ -7,86 +7,103 @@
 //   https://github.com/devcontainers/templates/tree/main/src/universal
 // ===================================================================================================
 {
-	"name": "Python Debian Codespaces Devcontainer",
+  "name": "Python Debian Codespaces Devcontainer",
 
 
-	// ===================================================================================================
-	// Use a prebuilt image or build a custom image with a Dockerfile or Docker Compose file. More info:
-	//   https://containers.dev/guide/dockerfile
-	//   https://containers.dev/implementors/json_reference/#image-specific
-	// ===================================================================================================
-	// "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
+  // ===================================================================================================
+  // Use a prebuilt image or build a custom image with a Dockerfile or Docker Compose file. More info:
+  //   https://containers.dev/guide/dockerfile
+  //   https://containers.dev/implementors/json_reference/#image-specific
+  // ===================================================================================================
+  // "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
 
-	// ===================================================================================================
-	// VSCode specific properties go under `vscode` inside `customizations`.  For docs on that and other
-	// supporting tools and services:
-	//   https://containers.dev/supporting
-	// ===================================================================================================
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-azuretools.vscode-docker",
-				"tamasfe.even-better-toml",
-				"ms-python.python"
-			],
-			"settings": {
-				// ===================================================================================================
-				// Install your dotfiles into the container.
-				//   https://code.visualstudio.com/docs/devcontainers/containers#_personalizing-with-dotfile-repositories
-				// ===================================================================================================
-				"dotfiles.repository": "GuyHoozdis/dotfiles",
-				"dotfiles.targetPath": "~/dotfiles",
-				"dotfiles.installCommand": "./share/install/vscode/install.sh",
-				"python.terminal.activateEnvironment": false
-			}
-		}
-	},
+  // ===================================================================================================
+  // VSCode specific properties go under `vscode` inside `customizations`.  For docs on that and other
+  // supporting tools and services:
+  //   https://containers.dev/supporting
+  // ===================================================================================================
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Docker for VSCode
+        "ms-azuretools.vscode-docker",
+        // TOML Language Support
+        "tamasfe.even-better-toml",
+        // MS Python Extension for VSCode
+        "ms-python.python",
+        // GitHub Actions for VSCode
+        "github.vscode-github-actions",
+        // Markdown Preview
+        "bierner.markdown-mermaid",
+        // TODO Tree
+        "gruntfuggly.todo-tree",
+        // autoDocstring: VSCode Python Docstring Generator
+        "njpwerner.autodocstring",
+        // EditorConfig for VSCode
+        "editorconfig.editorconfig",
+        // Cucumber (Gherkin) Syntax and Snippets
+        "stevejpurves.cucumber",
+        // reStructuredText Syntax highlighting
+        "snekvik.simple-rst"
+      ],
+      "settings": {
+        // ===================================================================================================
+        // Install your dotfiles into the container.
+        //   https://code.visualstudio.com/docs/devcontainers/containers#_personalizing-with-dotfile-repositories
+        // ===================================================================================================
+        "dotfiles.repository": "GuyHoozdis/dotfiles",
+        "dotfiles.targetPath": "~/dotfiles",
+        "dotfiles.installCommand": "./share/install/vscode/install.sh",
+        "python.terminal.activateEnvironment": false
+      }
+    }
+  },
 
 
-	// ===================================================================================================
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// ===================================================================================================
-	// "features": {},
+  // ===================================================================================================
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // ===================================================================================================
+  // "features": {},
 
 
-	// ===================================================================================================
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// ===================================================================================================
-	// "forwardPorts": [],
+  // ===================================================================================================
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // ===================================================================================================
+  // "forwardPorts": [],
 
 
-	// ===================================================================================================
-	// Use 'postCreateCommand' to run commands after the container is created.  See the docs
-	// on Lifecycle Scripts for other commands available:
-	//   https://containers.dev/implementors/json_reference/#lifecycle-scripts
-	// ---------------------------------------------------------------------------------------------------
-	// Examples:
-	//
-	// "postCreateCommand": "git config --global --add safe.directory /workspace/devcontainer-experiment"
-	//
-	// "postCreateCommand": ["bash", "-c", "./.devcontainer/postCreateCommand.sh"]
-	//
-	// "postCreateCommand": [
-	// 	 "bash", "-c", "./.devcontainer/postCreateCommand.sh $*",
-	// 	 "<ignored>",
-	// 	 "${containerWorkspaceFolder}"
-	// ]
-	// ---------------------------------------------------------------------------------------------------
-	// The postCreateCommand.sh script is left for reference.  It isn't doing anything right now.
-	// ===================================================================================================
-	"postCreateCommand": {
-		"script": ["bash", "-c", "./.devcontainer/postCreateCommand.sh"],
-		"safeDir": ["git", "config", "--global", "--add", "safe.directory", "${containerWorkspaceFolder}"]
-	}
+  // ===================================================================================================
+  // Use 'postCreateCommand' to run commands after the container is created.  See the docs
+  // on Lifecycle Scripts for other commands available:
+  //   https://containers.dev/implementors/json_reference/#lifecycle-scripts
+  // ---------------------------------------------------------------------------------------------------
+  // Examples:
+  //
+  // "postCreateCommand": "git config --global --add safe.directory /workspace/devcontainer-experiment"
+  //
+  // "postCreateCommand": ["bash", "-c", "./.devcontainer/postCreateCommand.sh"]
+  //
+  // "postCreateCommand": [
+  //   "bash", "-c", "./.devcontainer/postCreateCommand.sh $*",
+  //   "<ignored>",
+  //   "${containerWorkspaceFolder}"
+  // ]
+  // ---------------------------------------------------------------------------------------------------
+  // The postCreateCommand.sh script is left for reference.  It isn't doing anything right now.
+  // ===================================================================================================
+  "postCreateCommand": {
+    "script": ["bash", "-c", "./.devcontainer/postCreateCommand.sh"],
+    "safeDir": ["git", "config", "--global", "--add", "safe.directory", "${containerWorkspaceFolder}"]
+  }
 
 
-	// ===================================================================================================
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// !!!: Don't do this!
-	// ===================================================================================================
-	// "remoteUser": "root"
+  // ===================================================================================================
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // !!!: Don't do this!
+  // ===================================================================================================
+  // "remoteUser": "root"
 }

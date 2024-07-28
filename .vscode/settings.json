@@ -1,4 +1,6 @@
 {
     "autoDocstring.docstringFormat": "google",
     "autoDocstring.startOnNewLine": false,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true
 }
