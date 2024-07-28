@@ -45,12 +45,14 @@ jobs:
       run: nox --stop-on-first-error --session acceptance-${{ matrix.python-version }}
 
   cd:
-    needs: ci
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
 
-    outputs:
-      released: ${{ steps.release.outputs.released }}
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     steps:
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
@@ -70,30 +72,30 @@ jobs:
 
     - name: Use Python Semantic Release to prepare release
       id: release
-      run: |
-        echo "Do this now or do we wait until we do a release?"
+      uses: python-semantic-release/python-semantic-release@9.8.6
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Publish to TestPyPi
-      run: |
-        echo "The local version is $(poetry version)"
-        poetry build
-        poetry publish --repository=testpypi --username=__token__ --password=${{ secrets.TESTPYPI_TOKEN }}
-        pip index versions \
-          --index-url https://test.pypi.org/simple/ \
-          probullstats
+      uses: pypa/gh-action-pypi-publish@1.9.0
+      if: steps.release.outputs.released == 'true'
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        password: ${{ secrets.TESTPYPI_TOKEN }}
 
     - name: Test install from TestPyPI
       run: nox -k testpypi
 
     - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@1.9.0
       if: steps.release.outputs.released == 'true'
-      run: |
-        echo "Waiting for approval on the organization from PyPI."
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        password: ${{ secrets.PYPI_TOKEN }}
 
     - name: Publish package distributions to GitHub Releases
+      uses: python-semantic-release/upload-to-gh-releasev9.6.8
       if: steps.release.outputs.released == 'true'
-      run: |
-        echo "Go over these steps again and ensure that"
-        echo "the build artifacts being created are the"
-        echo "same that are being tested, published to"
-        echo "the package indexes, and here."
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ steps.release.outputs.tag }}
