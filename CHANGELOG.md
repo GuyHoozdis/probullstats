@@ -1,6 +1,18 @@
 # CHANGELOG
 
-## v0.1.0 (2024-07-28)
+## v0.1.0 (2024-07-29)
+
+### Build
+
+* build: Ensure poetry installed before executing build command ([`324205d`](https://github.com/ubcotx/probullstats/commit/324205dede693d47d3747d8474e8d0e9cf359073))
+
+### Ci
+
+* ci: Configure manual trigger for release workflow ([`e163077`](https://github.com/ubcotx/probullstats/commit/e163077f273bced71d1c959420419cfc6538317e))
+
+* ci: Pin action versions ([`82f4ccd`](https://github.com/ubcotx/probullstats/commit/82f4ccd575ad9fd546c9848f212033ce9ae6ee17))
+
+* ci: Add semantic release utility to CD jobs ([`b2342ce`](https://github.com/ubcotx/probullstats/commit/b2342ceb76097b61b665588fd84042032e545703))
 
 ### Documentation
 
@@ -35,6 +47,8 @@
 * fix(dev-tools): Added configurations for mypy and ruff ([`e98bf08`](https://github.com/ubcotx/probullstats/commit/e98bf08ed8b17a57dae908a2241ad2bf7615b78c))
 
 ### Unknown
+
+* Reset version for automatic publishing ([`c2ec72a`](https://github.com/ubcotx/probullstats/commit/c2ec72afc2a4f89250a31ef9954eb03ff3ddfe4e))
 
 * Manually create changelog ([`0758beb`](https://github.com/ubcotx/probullstats/commit/0758bebe963c37a94766f5cf4d0d0b76153edd85))
 
