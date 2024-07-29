@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.1 (2024-07-29)
+
+### Fix
+
+* fix: Manually repair project version ([`3246090`](https://github.com/ubcotx/probullstats/commit/3246090777c833c25ed6537ab468480b9be8204f))
+
 ## v0.1.0 (2024-07-29)
 
 ### Build

@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "probullstats"
-version = "0.1.2"
+version = "0.1.1"
 description = "An engine to pull data from the ProBullStats API."
 authors = ["Guy Hoozdis <GuyHoozdis@users.noreply.github.com>"]
 readme = "README.md"
