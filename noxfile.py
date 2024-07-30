@@ -20,7 +20,7 @@ SOURCE_CODE_TARGETS = [
     "tests/features/steps/",
     "tests/features/environment.py",
     "noxfile.py",
-    # "docs/conf.py",
+    "docs/conf.py",
 ]
 
 
@@ -41,6 +41,13 @@ LookupPackageIndex = {
     TestPyPI.name: TestPyPI,
     PyPI.name: PyPI,
 }
+
+
+@nox.session(python=DEFAULT_PYTHON_VERSION)
+def docs(session: Session) -> None:
+    """Build the documentation."""
+    session.run("poetry", "install", "--no-root", "--only=docs", external=True)
+    session.run("sphinx-build", "docs", "docs/_build")
 
 
 @nox.session(python=DEFAULT_PYTHON_VERSION)
