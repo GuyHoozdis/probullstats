@@ -34,6 +34,7 @@ nox.options.sessions = (
 )
 
 
+package = "probullstats"
 PackageIndex = namedtuple("PackageIndex", "name url")
 TestPyPI = PackageIndex("testpypi", "https://test.pypi.org/simple/")
 PyPI = PackageIndex("pypi", "https://pypi.org/simple/")
@@ -101,6 +102,14 @@ def suite(session: Session) -> None:
     args = session.posargs or ["discover", "./tests/suite"]
     session.run("poetry", "install", "--only=test", external=True)
     session.run("python", "-m", "testtools.run", *args)
+
+
+@nox.session(python=SUPPORTED_PYTHON_VERSIONS)
+def xdoctests(session: Session) -> None:
+    """Run examples with xdoctest."""
+    args = session.posargs or ["all"]
+    session.run("poetry", "install", "--only=test", external=True)
+    session.run("python", "-m", "xdoctest", package, *args)
 
 
 @nox.session(python=DEFAULT_PYTHON_VERSION)

@@ -19,8 +19,8 @@ def create_parser() -> argparse.ArgumentParser:
         A parser can be used as is, have argument groups added, or have subparsers added.
 
         >>> parser = create_parser()
-        >>> parser.parse_args()
-        Namespace()
+        >>> parser.parse_args(["--fail"])
+        Namespace(fail=True)
     """
     parser = argparse.ArgumentParser(
         prog=program_name,
@@ -45,9 +45,9 @@ def main(args: argparse.Namespace) -> int:
 
     Examples:
         >>> parser = create_parser()
-        >>> args = parser.parse_args()
+        >>> args = parser.parse_args(['--fail'])
         >>> main(args)
-        0
+        1
     """
     if args.fail:
         sys.stdout.write("The '-f' switch was set.")
