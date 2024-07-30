@@ -13,11 +13,11 @@ can use that data for any analysis or research they wish to pursue.
 IMPORTANT
 ---------
 
-Data Access Requires a Subscription.
+Unfettered Data Access Requires a Subscription.
 
-- This module does not grant the user with any rights to access the curated data in the `ProBullStats database`_.
-- Data access requires a subscription_ level that grants the rights to generate and use API keys to access the
-  site's data.  See the website's `terms and service`__.
+- This package does not grant the user with any rights to access the curated data in the `ProBullStats database`_.
+- Full Data access requires a subscription_ level that grants the rights to generate and use API keys to
+  access the site's data.  See the website's `terms and service`__.
 - The author of this package is not affiliated with the `ProBullStats website`_.
 
 __ subscription_

@@ -8,7 +8,7 @@ name = "probullstats"
 version = "0.1.1"
 description = "An engine to pull data from the ProBullStats API."
 authors = ["Guy Hoozdis <GuyHoozdis@users.noreply.github.com>"]
-readme = "README.md"
+readme = "README.rst"
 packages = [{include = "probullstats", from = "src"}]
 
 
@@ -49,6 +49,8 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.4.7"
+furo = "^2024.7.18"
+sphinx-autodoc-typehints = "^2.2.3"
 
 
 [tool.poetry.group.release]

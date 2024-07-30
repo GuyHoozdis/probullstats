@@ -44,13 +44,6 @@ LookupPackageIndex = {
 
 
 @nox.session(python=DEFAULT_PYTHON_VERSION)
-def docs(session: Session) -> None:
-    """Build the documentation."""
-    session.run("poetry", "install", "--no-root", "--only=docs", external=True)
-    session.run("sphinx-build", "docs", "docs/_build")
-
-
-@nox.session(python=DEFAULT_PYTHON_VERSION)
 def lint(session: Session) -> None:
     """Lint source code."""
     args = session.posargs or SOURCE_CODE_TARGETS
