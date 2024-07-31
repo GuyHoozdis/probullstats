@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.2.0 (2024-07-31)
+
+### Documentation
+
+* docs: Use furo theme for documentation ([`3d2b5ee`](https://github.com/ubcotx/probullstats/commit/3d2b5eef357571a5c7b0f30f3335a3c1443642ad))
+
+* docs: Add initial config and content for docs ([`8616ab1`](https://github.com/ubcotx/probullstats/commit/8616ab1176cfc61ab50d435b7be02719bc09d49b))
+
+### Feature
+
+* feat: Added logging for unhandled exceptions ([`0f6041e`](https://github.com/ubcotx/probullstats/commit/0f6041e34d12a36c54b8e36764cff7d14f2b9cc8))
+
+### Test
+
+* test(xdoctests): Got placeholder docstring tests working ([`7f95450`](https://github.com/ubcotx/probullstats/commit/7f95450a1876223e0d8fdbce80179783bc7c7a48))
+
 ## v0.1.1 (2024-07-29)
 
 ### Fix
