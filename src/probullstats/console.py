@@ -7,6 +7,7 @@ import sys
 
 from probullstats import __name__ as program_name
 from probullstats import __version__ as program_version
+from probullstats import logger
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -45,25 +46,37 @@ def main(args: argparse.Namespace) -> int:
 
     Examples:
         >>> parser = create_parser()
-        >>> args = parser.parse_args(['--fail'])
+        >>> args = parser.parse_args(["--fail"])
         >>> main(args)
         1
     """
+    logger.debug("Entering main")
     if args.fail:
-        sys.stdout.write("The '-f' switch was set.")
-        return 1
+        msg = "The '-f' switch was set."
+        logger.debug(msg)
+        raise RuntimeError(msg)
 
-    sys.stdout.write("Everything is hunky-dory.")
+    sys.stdout.write("Imagine this is the collated data you requested.")
+    logger.debug("Leaving main")
     return 0
 
 
+@logger.catch
 def cli() -> None:
     """Main entrypoint for terminal execution."""
     parser = create_parser()
     args = parser.parse_args()
 
-    # TODO(guyhoozdis): Catch unhandled exceptions here
-    # https://github.com/ubcotx/probullstats/issues/2
+    # logger.enable("probullstats")
+
+    logger.trace("Log level enabled")
+    logger.debug("Log level enabled.")
+    logger.info("Log level enabled.")
+    logger.success("Log level enabled.")
+    logger.warning("Log level enabled.")
+    logger.error("Log level enabled.")
+    logger.critical("Log level enabled.")
+
     returncode = main(args)
 
     sys.exit(returncode)

@@ -92,7 +92,7 @@ def docs(session: Session) -> None:
 def acceptance(session: Session) -> None:
     """Run acceptance tests."""
     args = session.posargs or ["./tests/features"]
-    session.run("poetry", "install", "--only=test", external=True)
+    session.run("poetry", "install", "--with=test", "--without=dev", external=True)
     session.run("behave", *args)
 
 
@@ -100,7 +100,7 @@ def acceptance(session: Session) -> None:
 def suite(session: Session) -> None:
     """Static type checking using mypy."""
     args = session.posargs or ["discover", "./tests/suite"]
-    session.run("poetry", "install", "--only=test", external=True)
+    session.run("poetry", "install", "--with=test", "--without=dev", external=True)
     session.run("python", "-m", "testtools.run", *args)
 
 
