@@ -18,7 +18,8 @@ def step_impl(context: Any, package: str) -> None:
 
 @when('I execute "{script} --version" in a terminal or shell')
 def step_impl(context: Any, script: str) -> None:
-    context.completed = subprocess.run(args=[script, "--version"], stdout=subprocess.PIPE, check=False)
+    args = script.split(' ')
+    context.completed = subprocess.run(args=[*args, "--version"], stdout=subprocess.PIPE, check=False)
     context.script = script
 
 
