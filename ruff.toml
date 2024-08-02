@@ -106,6 +106,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "tests/features/environment.py" = ["ANN401", "INP001", "T10"]
 "tests/features/steps/*.py" = ["ANN401", "F811"]
 "docs/**" = ["INP001", "I002"]
+"src/probullstats/__main__.py" = ["I002"]
 
 [lint.pydocstyle]
 convention = "google"

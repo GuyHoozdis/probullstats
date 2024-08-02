@@ -18,7 +18,7 @@ def step_impl(context: Any, package: str) -> None:
 
 @when('I execute "{script} --version" in a terminal or shell')
 def step_impl(context: Any, script: str) -> None:
-    args = script.split(' ')
+    args = script.split(" ")
     context.completed = subprocess.run(args=[*args, "--version"], stdout=subprocess.PIPE, check=False)
     context.script = script
 
@@ -29,7 +29,7 @@ def step_impl(context: Any) -> None:
     if not output:
         msg = "Nothing was written to stdout."
         raise AssertionError(msg)
-    if not re.match(rf"{context.script} v[\d]\.[\d]\.[\d]", output):
+    if not re.match(rf"{context.package} v[\d]\.[\d]\.[\d]", output):
         msg = f"{output} did not match expected version output."
         raise AssertionError(msg)
 
