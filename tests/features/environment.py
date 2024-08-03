@@ -38,3 +38,8 @@ def after_step(_: Any, step: Any) -> None:
         import ipdb
 
         ipdb.post_mortem(step.exc_traceback)
+
+
+def before_step(context: Any, step: Any) -> None:
+    """Add step to context for generating messages in the NotImplementedError"""
+    context.step = step
