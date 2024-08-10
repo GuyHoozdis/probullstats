@@ -72,8 +72,8 @@ def mypy(session: Session) -> None:
 @nox.session(name="code-quality", python=DEFAULT_PYTHON_VERSION)
 def quality(session: Session) -> None:
     """Execute the lint, style, and mypy sessions."""
-    session.notify("lint")
     session.notify("style")
+    session.notify("lint")
     session.notify("mypy-3.9")
     session.notify("mypy-3.10")
     session.notify("mypy-3.11")

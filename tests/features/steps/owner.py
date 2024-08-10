@@ -1,15 +1,10 @@
 from __future__ import annotations
 
-from collections import namedtuple
-from datetime import date
 from typing import Any
 
 from behave import given, then, when
 
 from probullstats import console
-
-
-DateRange = namedtuple("DateRange", "start_date end_date")
 
 
 def format_exception_message(step: Any) -> str:
