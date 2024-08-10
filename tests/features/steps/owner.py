@@ -1,30 +1,39 @@
 from __future__ import annotations
 
+from collections import namedtuple
+from datetime import date
 from typing import Any
 
 from behave import given, then, when
+
+from probullstats import console
+
+
+DateRange = namedtuple("DateRange", "start_date end_date")
 
 
 def format_exception_message(step: Any) -> str:
     return f"STEP: {step.step_type.capitalize()} {step.name}"
 
 
-@given("a start date and end date")
+@given("the following arguments")
 def step_impl(context: Any) -> None:
-    msg = format_exception_message(context.step)
-    raise NotImplementedError(msg)
+    context.arguments = context.table.rows[0].cells[0]
 
 
-@when("I request data about events")
+@when('I request data about those "{command}"')
+def step_impl(context: Any, command: str) -> None:
+    parser = console.create_parser()
+    cmdline = f"{command} {context.arguments}"
+    args = parser.parse_args(cmdline.split())
+    setattr(context, command, args.func(args))
+
+
+@then("I am returned a list of events")
 def step_impl(context: Any) -> None:
-    msg = format_exception_message(context.step)
-    raise NotImplementedError(msg)
-
-
-@then("I am returned a list of events that occurred between those dates (inclusive)")
-def step_impl(context: Any) -> None:
-    msg = format_exception_message(context.step)
-    raise NotImplementedError(msg)
+    if not context.events:
+        msg = "No events were returned"
+        raise AssertionError(msg)
 
 
 @then("the meta information for each event")
