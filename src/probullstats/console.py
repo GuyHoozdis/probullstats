@@ -126,6 +126,7 @@ def main(args: argparse.Namespace) -> int:
         msg = "The '-f/--fail' switch was set."
         logger.debug(f"Raising exception: {msg}")
         raise RuntimeError(msg)
+    # if not args.command:
 
     logger.debug(f"Invoking {args.command} command.")
     data = args.func(args)
@@ -143,6 +144,7 @@ def cli() -> None:
     parser = create_parser()
     args = parser.parse_args()
 
+    # Configure log handler
     # logger.enable("probullstats")
 
     logger.trace("Log level enabled")
