@@ -4,14 +4,11 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import date
 from enum import StrEnum, auto
-
-import arrow
 
 from probullstats import __name__ as program_name
 from probullstats import __version__ as program_version
-from probullstats import logger
+from probullstats import commands, logger
 
 
 class Formats(StrEnum):
@@ -81,27 +78,18 @@ def create_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("-f", "--fail", action="store_true", help="Placeholder until real functionality implemented.")
 
-    subcommand_parsers = parser.add_subparsers(
-        help="Data anchor.  Use <cmd> --help for more info.",
+    subcommand_parser = parser.add_subparsers(
+        title="commands",
+        help="Use <command> --help for more info.",
         dest="command",
+        required=True,
     )
 
     # To be used with:
     #  https://github.com/iterative/shtab
     # completion_parser = parser.add_subparsers("complete", help="Print shell completion.")
-
-    events_parser = subcommand_parsers.add_parser("events", help="Select one or more events as the data anchor.")
-    events_parser.add_argument("--after", type=date.fromisoformat, help="Retrieve events after this date: YYYY-MM-DD.")
-    events_parser.add_argument(
-        "--before",
-        type=date.fromisoformat,
-        default=arrow.now().date(),
-        help="Retrieve events before this date. [default=%(default)s]",
-    )
-    events_parser.set_defaults(func=command_placeholder)
-
-    bulls_parser = subcommand_parsers.add_parser("bulls", help="Select one or more events as the data anchor.")
-    bulls_parser.set_defaults(func=command_placeholder)
+    commands.events.add_parser(subcommand_parser)
+    commands.bulls.add_parser(subcommand_parser)
 
     return parser
 
