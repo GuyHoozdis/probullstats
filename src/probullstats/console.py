@@ -8,7 +8,7 @@ from enum import StrEnum, auto
 
 from probullstats import __name__ as program_name
 from probullstats import __version__ as program_version
-from probullstats import commands, logger
+from probullstats import commands, logger, models
 
 
 class Formats(StrEnum):
@@ -21,17 +21,7 @@ class Formats(StrEnum):
     JSON = auto()
 
 
-def command_placeholder(args: argparse.Namespace) -> list:
-    """A placeholder until the actual command logic is written."""
-    logger.info("Fake command handler called.")
-    print(f"## {args.command}")  # noqa: T201
-    print("Args:", args)  # noqa: T201
-
-    # Commands will return a list of events, bulls, ...
-    return []
-
-
-def write_data(args: argparse.Namespace, data: list) -> int:
+def write_data(args: argparse.Namespace, data: list[models.Bull | models.Event]) -> int:
     """A placeholder until the actual output logic is written."""
     logger.info("Fake data output handler called.")
     if not data:

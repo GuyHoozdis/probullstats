@@ -4,14 +4,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from probullstats import logger
+from probullstats import logger, models
 
 if TYPE_CHECKING:
     from argparse import Namespace
     from argparse import _SubParsersAction as SubParser
 
 
-def execute(args: Namespace) -> list:
+def execute(args: Namespace) -> list[models.Bull]:
     """A placeholder until the actual command logic is written."""
     logger.info(f"Fake {__name__} command handler called.")
     print(f"## {args.command} - {__name__}")  # noqa: T201
@@ -21,7 +21,7 @@ def execute(args: Namespace) -> list:
     return []
 
 
-def add_parser(subcommand_parser: SubParser) -> None:
+def add_parser(subcommand_parser: SubParser) -> None:  # type: ignore[type-arg]
     """Add command specific parameters to the given parser.
 
     Args:
